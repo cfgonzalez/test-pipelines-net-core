@@ -15,3 +15,16 @@ variables:
 steps:
 - script: dotnet build ./src --configuration $(buildConfiguration)
   displayName: 'dotnet build $(buildConfiguration)'
+- task: NuGetCommand@2
+  displayName: 'Restore Nuget dependences'
+  inputs:
+    command: 'restore'
+    restoreSolution: './src'
+    feedsToUse: 'select'
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build $(buildConfiguration) '
+  inputs:
+    command: 'build'
+    projects: './src'
+    arguments: '--configuration $(buildConfiguration)'
+
